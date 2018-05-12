@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project(gpg)
 set(CMAKE_BUILD_TYPE Release)
 
+add_definitions(-std=c++11)
+
 # Eigen library
 include_directories(${EIGEN3_INCLUDE_DIR})
 

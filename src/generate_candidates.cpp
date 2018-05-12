@@ -131,5 +131,10 @@ int main(int argc, char* argv[])
   // Generate a list of grasp candidates.
   std::vector<Grasp> candidates = candidates_generator.generateGraspCandidates(cloud_cam);
 
+  for(auto grasp : candidates)
+  {
+    grasp.print();
+  }
+
   return 0;
 }

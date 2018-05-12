@@ -44,15 +44,24 @@ void Plot::plotHand3D(boost::shared_ptr<pcl::visualization::PCLVisualizer>& view
   double outer_diameter, double finger_width, double hand_depth, double hand_height, int idx) const
 {
   double hw = 0.5*outer_diameter;
-  double base_depth = 0.02;
+  double base_depth = 0.12;
   double approach_depth = 0.07;
 
+  // left bottom and right bottom position of the two fingertips
   Eigen::Vector3d left_bottom = hand.getGraspBottom() - (hw - 0.5 * finger_width) * hand.getBinormal();
   Eigen::Vector3d right_bottom = hand.getGraspBottom() + (hw - 0.5 * finger_width) * hand.getBinormal();
+
+  // left cener and right center position of the two fingertips
   Eigen::VectorXd left_center = left_bottom + 0.5 * hand_depth * hand.getApproach();
   Eigen::VectorXd right_center = right_bottom + 0.5 * hand_depth * hand.getApproach();
-  Eigen::Vector3d base_center = left_bottom + 0.5 * (right_bottom - left_bottom) - 0.01 * hand.getApproach();
-  Eigen::Vector3d approach_center = base_center - 0.04 * hand.getApproach();
+
+  // palm center position
+  // calculated by first getting the center position between fingertips and palm 
+  // and then substracting half length of the palm
+  Eigen::Vector3d base_center = left_bottom + 0.5 * (right_bottom - left_bottom) - 0.12 * 0.5 * hand.getApproach();
+
+  // There is no approach cube on Fetch
+  // Eigen::Vector3d approach_center = base_center - 0.04 * hand.getApproach();
 
   Eigen::Quaterniond quat(hand.getFrame());
 
@@ -60,8 +69,8 @@ void Plot::plotHand3D(boost::shared_ptr<pcl::visualization::PCLVisualizer>& view
 
   plotCube(viewer, left_center, quat, hand_depth, finger_width, hand_height, "left_finger_" + num);
   plotCube(viewer, right_center, quat, hand_depth, finger_width, hand_height, "right_finger_" + num);
-  plotCube(viewer, base_center, quat, base_depth, outer_diameter, hand_height, "base_" + num);
-  plotCube(viewer, approach_center, quat, approach_depth, finger_width, 0.5*hand_height, "approach_" + num);
+  plotCube(viewer, base_center, quat, base_depth, outer_diameter, 0.07, "base_" + num);
+ // plotCube(viewer, approach_center, quat, approach_depth, finger_width, 0.5*hand_height, "approach_" + num);
 }
 
 
