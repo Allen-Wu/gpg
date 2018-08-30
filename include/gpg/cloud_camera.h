@@ -166,6 +166,12 @@ public:
    */
   CloudCamera(const std::string& filename, const Eigen::Matrix3Xd& view_points);
 
+  /*
+   * Newly created constructor of CloudCamera
+   */
+  CloudCamera(const PointCloudRGB::Ptr& cloud, const Eigen::Matrix3Xd& view_points);
+
+
   /**
    * \brief Constructor for point cloud files (*.pcd) from a two cameras setup.
    * \param filename_left the location of the point cloud file from the first camera

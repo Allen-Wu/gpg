@@ -102,6 +102,19 @@ CloudCamera::CloudCamera(const std::string& filename, const Eigen::Matrix3Xd& vi
   std::cout << "Loaded point cloud with " << camera_source_.cols() << " points \n";
 }
 
+/* Newly created constructor of CloudCamera */
+CloudCamera::CloudCamera(const PointCloudRGB::Ptr& cloud, const Eigen::Matrix3Xd& view_points)
+: cloud_processed_(new PointCloudRGB), cloud_original_(new PointCloudRGB), view_points_(view_points)
+{
+  sample_indices_.resize(0);
+  samples_.resize(3,0);
+  normals_.resize(3,0);
+  cloud_processed_ = cloud;
+  cloud_original_ = cloud_processed_;
+  camera_source_ = Eigen::MatrixXi::Ones(1, cloud_processed_->size());
+  std::cout << "Loaded point cloud with " << camera_source_.cols() << " points \n";
+}
+
 
 CloudCamera::CloudCamera(const std::string& filename_left, const std::string& filename_right,
   const Eigen::Matrix3Xd& view_points)
